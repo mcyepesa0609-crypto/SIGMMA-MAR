@@ -1,0 +1,671 @@
+function Phase2IntroTextBlock() {
+  const [route, setRoute] = useState("A"); // "A" | "B"
+  const [selectedScenario, setSelectedScenario] = useState("S1");
+  const [manualScores, setManualScores] = useState({});
+  const [guideUnlocked, setGuideUnlocked] = useState(false);
+
+  const { cases, setCases, activeCaseId } = useCasesStore();
+  const currentCaseId = activeCaseId || "nuevo";
+  const currentCase = (cases && cases[currentCaseId]) || (cases && cases.nuevo) || {};
+  const activeCase = currentCase;
+
+  const [useDefaultWeights, setUseDefaultWeights] = React.useState(true);
+  const defaultWeights = React.useMemo(
+    () => ({
+      C1: 15,
+      C2: 30,
+      C3: 20,
+      C4: 20,
+      C5: 15,
+    }),
+    []
+  );
+
+  const criteriaLabels = React.useMemo(
+    () => ({
+      C1: "Objetivo",
+      C2: "Condiciones hidrogeológicas",
+      C3: "Fuente y calidad del agua",
+      C4: "Viabilidad técnica",
+      C5: "Aspectos socioambientales",
+    }),
+    []
+  );
+
+  const criteriaOrder = React.useMemo(() => ["C1", "C2", "C3", "C4", "C5"], []);
+
+  const activeWeights = React.useMemo(() => {
+    const stored = activeCase?.weights || {};
+    const base = useDefaultWeights ? defaultWeights : stored;
+    return criteriaOrder.reduce((acc, key) => {
+      const value = Number(base?.[key]);
+      acc[key] = Number.isFinite(value) ? value : 0;
+      return acc;
+    }, {});
+  }, [activeCase?.weights, criteriaOrder, defaultWeights, useDefaultWeights]);
+
+  const sumWeights = criteriaOrder.reduce((acc, key) => acc + (activeWeights[key] || 0), 0);
+
+  function setWeight(key, value) {
+    const nextValue = Number(value);
+    if (!Number.isFinite(nextValue)) return;
+    setUseDefaultWeights(false);
+    setCases((prev) => {
+      const prevObj = prev && typeof prev === "object" ? prev : {};
+      const current = prevObj?.[currentCaseId] || {};
+      return {
+        ...prevObj,
+        [currentCaseId]: {
+          ...current,
+          weights: {
+            ...(current.weights || {}),
+            [key]: nextValue,
+          },
+        },
+      };
+    });
+  }
+
+  const excludedVarIds = new Set(["V10", "V27", "V30", "V31"]);
+  const REQUIRED_GUIDE_VARS = [
+    "V2",
+    "V3",
+    "V5",
+    "V8",
+    "V11",
+    "V12",
+    "V19",
+    "V20",
+    "V21",
+    "V22",
+    "V23",
+  ];
+
+  const yesNoVars = ROUTE_A_VARIABLES_GUIDE.filter(
+    (item) =>
+      !excludedVarIds.has(item.id) &&
+      item.options.length === 2 &&
+      item.options.includes("Si") &&
+      item.options.includes("No")
+  );
+
+  const multiOptionVars = ROUTE_A_VARIABLES_GUIDE.filter(
+    (item) => !excludedVarIds.has(item.id) && !yesNoVars.includes(item)
+  );
+
+  const SCENARIOS = [
+    {
+      id: "S1",
+      title: "Escenario 1 - Minimo operativo",
+      subtitle: "Mayor incertidumbre (calculo final).",
+      desc:
+        "Se trabaja solo con los 5 criterios obligatorios marcados con (*). Permite continuar el proceso, pero los resultados son mas sensibles a faltantes.",
+    },
+    {
+      id: "S2",
+      title: "Escenario 2 - Intermedio verificado",
+      subtitle: "Incertidumbre moderada (calculo final).",
+      desc:
+        "Incluye el Escenario 1 mas los insumos de modelos (geologico, hidrologico, hidraulico e hidrogeoquimico), tipo de acuifero y fuente/calidad.",
+    },
+    {
+      id: "S3",
+      title: "Escenario 3 - Completo robusto",
+      subtitle: "Baja incertidumbre (calculo final).",
+      desc:
+        "Integra la mayor parte de variables V1-V35, mapas y evidencias. Es el escenario recomendado para resultados confiables.",
+    },
+  ];
+
+  const GROUP_REFERENCE = [
+    {
+      id: "G1",
+      title: "Grupo 1: Intervencion de corrientes superficiales",
+      items: [
+        "Objetivo",
+        "Caracterizacion del acuifero (resumen o modelos)",
+        "Modelos geologico, hidrologico, hidraulico e hidrogeoquimico",
+        "Tipo de acuifero (libre)",
+        "Estudio de la zona no saturada",
+        "Porosidad y permeabilidad",
+        "Fuente: superficial o escorrentia",
+        "Calidad y normativa para recarga/uso final",
+        "Capacidad y volumen de recarga",
+        "Uso final",
+        "Relieve: llanura - valle",
+        "Infraestructura asociada al grupo",
+      ],
+    },
+    {
+      id: "G2",
+      title: "Grupo 2: Recarga mediante pozos",
+      items: [
+        "Objetivo",
+        "Caracterizacion del acuifero (resumen o modelos)",
+        "Modelos geologico, hidrologico, hidraulico e hidrogeoquimico",
+        "Tipo de acuifero (libre o semiconfinado/confinado)",
+        "Porosidad (prioritaria sobre permeabilidad)",
+        "Fuente: todas las fuentes",
+        "Calidad y normativa para recarga/uso final",
+        "Capacidad y volumen de recarga",
+        "Uso final",
+        "Relieve: todas",
+        "Infraestructura: pozos",
+      ],
+    },
+    {
+      id: "G3",
+      title: "Grupo 3: Infiltracion superficial",
+      items: [
+        "Objetivo",
+        "Caracterizacion del acuifero (resumen o modelos)",
+        "Modelos geologico, hidrologico, hidraulico e hidrogeoquimico",
+        "Tipo de acuifero (libre)",
+        "Estudio de la zona no saturada",
+        "Permeabilidad (prioritaria sobre porosidad)",
+        "Fuente: todas las fuentes",
+        "Calidad y normativa para recarga/uso final",
+        "Capacidad y volumen de recarga",
+        "Uso final",
+        "Relieve: llanura - valle",
+        "Infraestructura asociada al grupo",
+      ],
+    },
+  ];
+
+  const autoScenario = useMemo(() => {
+    const minOk = validateMinimumScenario(currentCase).ok;
+
+    const modelsOk =
+      moduleHasAnyEvidence(currentCase, "geologico") &&
+      moduleHasAnyEvidence(currentCase, "hidrologico") &&
+      moduleHasAnyEvidence(currentCase, "hidraulico") &&
+      moduleHasAnyEvidence(currentCase, "hidrogeoquimico") &&
+      moduleHasAnyEvidence(currentCase, "caracterizacion");
+
+    const volumenOk = moduleHasAnyEvidence(currentCase, "volumen");
+    const infraOk = moduleHasAnyEvidence(currentCase, "infraestructura");
+    const comunidadOk = moduleHasAnyEvidence(currentCase, "comunidad");
+    const relieveOk = moduleHasAnyEvidence(currentCase, "relieve");
+
+    const scenario2Ok = minOk && modelsOk;
+    const scenario3Ok = scenario2Ok && volumenOk && infraOk && comunidadOk && relieveOk;
+
+    if (scenario3Ok) return "S3";
+    if (scenario2Ok) return "S2";
+    return "S1";
+  }, [currentCase]);
+
+  useEffect(() => {
+    setSelectedScenario(autoScenario);
+  }, [autoScenario]);
+
+  function normalizeToken(value) {
+    return String(value || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function isFilledValue(value) {
+    const raw = String(value ?? "").trim();
+    if (!raw) return false;
+    const norm = normalizeToken(raw).replace(/\s+/g, "_");
+    return norm !== "no_reportado";
+  }
+
+  function resolveModuleId(inputsText) {
+    const normalized = normalizeToken(inputsText);
+    if (!normalized || normalized === "na") return null;
+    if (normalized.includes("geologico")) return "geologico";
+    if (normalized.includes("hidrologico")) return "hidrologico";
+    if (normalized.includes("hidraulico")) return "hidraulico";
+    if (normalized.includes("hidrogeoquimico")) return "hidrogeoquimico";
+    if (normalized.includes("caracterizacion")) return "caracterizacion";
+    if (normalized.includes("fuente")) return "fuente";
+    if (normalized.includes("volumen") || normalized.includes("capacidad")) return "volumen";
+    if (normalized.includes("infraestructura")) return "infraestructura";
+    if (normalized.includes("comunidad")) return "comunidad";
+    if (normalized.includes("relieve")) return "relieve";
+    return null;
+  }
+
+  function isModuleComplete(caseObj, moduleId) {
+    if (!caseObj || !moduleId) return false;
+    const fields = MODULE_FIELDS?.[moduleId] || [];
+    if (!fields.length) return false;
+    const moduleObj = caseObj?.[moduleId] || caseObj?.phase1?.modules?.[moduleId] || {};
+    return fields.every((field) => isFilledValue(moduleObj?.[field.name]));
+  }
+
+  function moduleHasAnyValue(caseObj, moduleId) {
+    if (!caseObj || !moduleId) return false;
+    const fields = MODULE_FIELDS?.[moduleId] || [];
+    if (!fields.length) return false;
+    const moduleObj = caseObj?.[moduleId] || caseObj?.phase1?.modules?.[moduleId] || {};
+    return fields.some((field) => isFilledValue(moduleObj?.[field.name]));
+  }
+
+  function moduleHasAnyEvidence(caseObj, moduleId) {
+    if (!caseObj || !moduleId) return false;
+
+    const hasField = moduleHasAnyValue(caseObj, moduleId);
+    const layers = MAP_LAYERS_BY_MODULE?.[moduleId] || [];
+
+    if (!layers.length) return hasField;
+
+    const selectedLayers = caseObj?.mapLayersByModule?.[moduleId] || [];
+    const hasUpload = layers.some((layer) => {
+      const legacyUpload = caseObj?.mapUploads?.[layer.id] || null;
+      const phaseUpload = caseObj?.phase1?.maps?.[layer.id] || null;
+      if (legacyUpload?.name || legacyUpload?.url) return true;
+      if (phaseUpload?.fileName || phaseUpload?.dataUrl) return true;
+
+      const legacyMeta = caseObj?.mapMeta?.[layer.id] || {};
+      const phaseMeta = phaseUpload?.validation || {};
+      return Boolean(
+        legacyMeta?.scaleText ||
+          legacyMeta?.marks?.scale ||
+          legacyMeta?.marks?.north ||
+          legacyMeta?.marks?.legend ||
+          phaseMeta?.scaleText ||
+          phaseMeta?.hasScale ||
+          phaseMeta?.hasNorth ||
+          phaseMeta?.hasLegend
+      );
+    });
+
+    return hasField || hasUpload || selectedLayers.length > 0;
+  }
+
+  function getAutoScore(item) {
+    const moduleId = resolveModuleId(item.inputs);
+    if (!moduleId) return { score: null, locked: false };
+
+    const getModuleValue = (modId, fieldName) => {
+      const moduleObj = currentCase?.[modId] || currentCase?.phase1?.modules?.[modId] || {};
+      return moduleObj?.[fieldName];
+    };
+
+    const parseNumber = (value) => {
+      const cleaned = String(value ?? "").replace(/[^0-9.]/g, "");
+      const num = Number(cleaned);
+      return Number.isFinite(num) ? num : null;
+    };
+
+    const mapOptionScore = (value, map) => {
+      if (!value) return null;
+      const valueNorm = normalizeKey(value);
+      const key = Object.keys(map).find((k) => normalizeKey(k) === valueNorm);
+      return key ? map[key] : null;
+    };
+
+    if (item.id === "V8") {
+      const tipo = getModuleValue("hidraulico", "tipo_unidad");
+      const score = mapOptionScore(tipo, {
+        Libre: 4,
+        "Semiconfinado – Confinado": 3,
+        "Semiconfinado - Confinado": 3,
+      });
+      if (score !== null) {
+        return { score, locked: isModuleComplete(currentCase, "hidraulico") };
+      }
+    }
+
+    if (item.id === "V11") {
+      const permeabilidad =
+        getModuleValue("hidraulico", "permeabilidad") || getModuleValue("caracterizacion", "permeabilidad");
+      const score = mapOptionScore(permeabilidad, {
+        "Muy alta (100<K)": 4,
+        "Alta (10<K<100)": 3,
+        "Media (1<K<10)": 2,
+        "Baja a muy baja (10^-2<K<1)": 1,
+      });
+      if (score !== null) {
+        return { score, locked: isModuleComplete(currentCase, "hidraulico") };
+      }
+      return { score: 0, locked: false };
+    }
+
+    if (item.id === "V12") {
+      const porosidad =
+        getModuleValue("hidraulico", "porosidad") || getModuleValue("caracterizacion", "porosidad");
+      const score = mapOptionScore(porosidad, {
+        "Muy alta (>50%)": 4,
+        "Alta (30-50%)": 3,
+        "Regular (10-30%)": 2,
+        "Mala (0-10%)": 1,
+      });
+      if (score !== null) {
+        return { score, locked: isModuleComplete(currentCase, "hidraulico") };
+      }
+      return { score: 0, locked: false };
+    }
+
+    if (item.id === "V22" || item.id === "V23" || item.id === "V35") {
+      const usoFinal =
+        getModuleValue("comunidad", "uso_final_del_agua") ||
+        getModuleValue("comunidad", "Uso_final_del_agua");
+      const condicionBeneficio = getModuleValue("comunidad", "condicion_beneficio");
+      const tieneUsoFinal = Boolean(usoFinal);
+
+      if (item.id === "V22") {
+        if (tieneUsoFinal) return { score: 4, locked: true };
+        return { score: null, locked: false };
+      }
+      if (item.id === "V23") {
+        if (tieneUsoFinal) return { score: 4, locked: true };
+        return { score: null, locked: false };
+      }
+      if (item.id === "V35") {
+        const score = mapOptionScore(condicionBeneficio, {
+          "Beneficio directo": 4,
+          "Beneficio indirecto": 2,
+          "Potencial beneficiario": 1,
+          "No evaluado": 0,
+        });
+        if (score !== null) return { score, locked: true };
+        return { score: null, locked: false };
+      }
+    }
+
+    if (item.id === "V19" || item.id === "V20" || item.id === "V21") {
+      const hasVolEvidence = moduleHasAnyEvidence(currentCase, "volumen");
+      if (!hasVolEvidence) {
+        return { score: null, locked: true };
+      }
+
+      const conoceCap = getModuleValue("volumen", "conoce_capacidad_almacenamiento");
+      const conoceVol = getModuleValue("volumen", "conoce_volumen_recarga");
+      const volMenorCap = getModuleValue("volumen", "volumen_menor_capacidad");
+
+      const cap = parseNumber(getModuleValue("volumen", "v_capacidad_almacenamiento_m3"));
+      const vol =
+        parseNumber(getModuleValue("volumen", "v_max_recarga_segura_m3")) ??
+        parseNumber(getModuleValue("volumen", "v_fuente_disponible_anual_m3"));
+
+      if (item.id === "V19") {
+        const score = mapOptionScore(conoceCap, { Si: 4, No: 0 });
+        if (score !== null) return { score, locked: true };
+        if (cap !== null) return { score: 4, locked: true };
+        return { score: 0, locked: true };
+      }
+      if (item.id === "V20") {
+        const score = mapOptionScore(conoceVol, { Si: 4, No: 0 });
+        if (score !== null) return { score, locked: true };
+        if (vol !== null) return { score: 4, locked: true };
+        return { score: 0, locked: true };
+      }
+      if (item.id === "V21") {
+        const score = mapOptionScore(volMenorCap, { Si: 4, No: 0 });
+        if (score !== null) return { score, locked: true };
+        if (cap !== null && vol !== null) return { score: vol <= cap ? 4 : 0, locked: true };
+        return { score: 0, locked: true };
+      }
+    }
+
+    const hasEvidence = moduleHasAnyEvidence(currentCase, moduleId);
+    if (!hasEvidence) return { score: null, locked: false };
+
+    const fields = MODULE_FIELDS?.[moduleId] || [];
+    const moduleObj = currentCase?.[moduleId] || currentCase?.phase1?.modules?.[moduleId] || {};
+    const filledCount = fields.filter((field) => isFilledValue(moduleObj?.[field.name])).length;
+    const total = fields.length || 1;
+    const ratio = filledCount / total;
+    const suggested = Math.max(1, Math.round(ratio * 4));
+
+    return {
+      score: Math.min(4, suggested),
+      locked: isModuleComplete(currentCase, moduleId),
+    };
+  }
+
+  function renderScoreControl(item) {
+    const autoScore = getAutoScore(item);
+    const isLocked = autoScore.locked;
+    const hasAuto = autoScore.score !== null;
+    const score =
+      isLocked
+        ? autoScore.score ?? 0
+        : manualScores[item.id] !== undefined
+          ? manualScores[item.id]
+          : autoScore.score ?? 0;
+    const scoreColors = {
+      0: "#fee2e2",
+      1: "#fed7aa",
+      2: "#fef9c3",
+      3: "#dcfce7",
+      4: "#bbf7d0",
+    };
+    const scoreColor = scoreColors[score] || "#f3f4f6";
+    return (
+      <div style={{ marginTop: 8 }}>
+        <div style={{ fontSize: 12, opacity: 0.8, marginBottom: 6 }}>
+          <em>
+            {hasAuto
+              ? isLocked
+                ? "Puntuacion automatica segun insumos diligenciados; el valor queda fijo porque el modulo esta completo."
+                : "Puntuacion sugerida por insumos parciales; puedes ajustarla si la evidencia es incompleta o si el criterio tecnico del caso lo amerita."
+              : "Selecciona la puntuacion (0-4) segun la evidencia disponible o el criterio tecnico del caso."}
+          </em>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <input
+            type="range"
+            min="0"
+            max="4"
+            step="1"
+            value={score}
+            disabled={isLocked}
+            onChange={(event) =>
+              setManualScores((prev) => ({
+                ...prev,
+                [item.id]: Number(event.target.value),
+              }))
+            }
+            style={{ flex: 1 }}
+          />
+          <div
+            style={{
+              minWidth: 28,
+              textAlign: "center",
+              padding: "4px 8px",
+              borderRadius: 8,
+              background: scoreColor,
+              fontWeight: 700,
+            }}
+          >
+            {score}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const guideStatus = React.useMemo(() => {
+    const requiredItems = ROUTE_A_VARIABLES_GUIDE.filter((item) => REQUIRED_GUIDE_VARS.includes(item.id));
+    const missing = requiredItems.filter((item) => {
+      const autoScore = getAutoScore(item);
+      const hasAuto = autoScore.score !== null;
+      const hasManual = Object.prototype.hasOwnProperty.call(manualScores, item.id);
+      return !(hasAuto || hasManual);
+    });
+    return {
+      missing,
+      canContinue: missing.length === 0,
+    };
+  }, [manualScores, currentCase]);
+
+  React.useEffect(() => {
+    if (!guideStatus.canContinue) {
+      setGuideUnlocked(false);
+    }
+  }, [guideStatus.canContinue]);
+
+  const TabBtn = ({ id, children }) => {
+    const active = route === id;
+    return (
+      <button
+        type="button"
+        onClick={() => setRoute(id)}
+        style={{
+          padding: "10px 16px",
+          borderRadius: 999,
+          border: "1px solid rgba(0,0,0,.18)",
+          background: active ? "#2563eb" : "transparent",
+          color: active ? "#fff" : "inherit",
+          fontWeight: 700,
+          cursor: "pointer",
+        }}
+      >
+        {children}
+      </button>
+    );
+  };
+
+  return (
+    <div className="panel-card">
+      <div style={{ marginTop: 6 }}>
+        <div style={{ fontWeight: 800, marginBottom: 8 }}>Escenarios de informacion</div>
+        <p style={{ marginTop: 4, opacity: 0.85 }}>
+          Puedes partir de un escenario de referencia y ajustarlo segun lo que tengas diligenciado en Insumos. Las
+          puntuaciones se calculan automaticamente con la informacion cargada; no necesitas asignarlas manualmente.
+        </p>
+
+        <div style={{ display: "grid", gap: 12, gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))" }}>
+          {SCENARIOS.map((scenario) => {
+            const active = autoScenario === scenario.id;
+            const isUncertain = scenario.id === "S1" || scenario.id === "S2";
+            return (
+              <div
+                key={scenario.id}
+                style={{
+                  border: active ? "2px solid #2563eb" : "1px solid rgba(0,0,0,.12)",
+                  borderRadius: 14,
+                  padding: 12,
+                  background: active ? "#eff6ff" : "#fff",
+                  boxShadow: active ? "0 8px 22px rgba(37,99,235,.12)" : "none",
+                }}
+              >
+                <div style={{ fontWeight: 800 }}>{scenario.title}</div>
+                <div
+                  style={{
+                    fontSize: 12,
+                    opacity: isUncertain ? 1 : 0.75,
+                    marginTop: 4,
+                    color: isUncertain ? "#dc2626" : "inherit",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                  }}
+                >
+                  {isUncertain ? (
+                    <span
+                      style={{
+                        width: 16,
+                        height: 16,
+                        borderRadius: 999,
+                        background: "#fee2e2",
+                        color: "#dc2626",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontWeight: 800,
+                        fontSize: 11,
+                      }}
+                    >
+                      !
+                    </span>
+                  ) : null}
+                  <span>{scenario.subtitle}</span>
+                </div>
+                <p style={{ marginTop: 8, fontSize: 13, opacity: 0.9 }}>{scenario.desc}</p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedScenario(scenario.id);
+                    try {
+                      window.dispatchEvent(
+                        new CustomEvent("sigmma:navigate", {
+                          detail: { to: "insumos", scenario: scenario.id },
+                        })
+                      );
+                    } catch {}
+                  }}
+                  style={{
+                    marginTop: 8,
+                    padding: "8px 10px",
+                    borderRadius: 10,
+                    border: "1px solid rgba(0,0,0,.14)",
+                    background: active ? "#2563eb" : "#fff",
+                    color: active ? "#fff" : "#111827",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                  }}
+                >
+                  Usar escenario
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <p style={{ marginTop: 10, opacity: 0.92, fontSize: 24, textAlign: "center", marginBottom: 6 }}>
+        <strong>Eleccion del metodo</strong>
+      </p>
+
+      <p style={{ marginTop: 2, opacity: 0.92 }}>
+        Con la informacion consolidada en Insumos, el sistema habilita dos rutas de procesamiento alineadas con el mismo{" "}
+        <strong>esquema conceptual de decision</strong> descrito en la ventana de Introduccion. Ambas buscan producir
+        resultados comparables, trazables y justificables; sin embargo, se diferencian en la forma de estructurar la
+        evaluacion y, por tanto, en el papel que asume el usuario durante el proceso.
+      </p>
+
+      <div style={{ display: "flex", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
+        <TabBtn id="A">Ruta A</TabBtn>
+        <TabBtn id="B">Ruta B</TabBtn>
+      </div>
+
+      {route === "A" && (
+        <div style={{ marginTop: 14 }}>
+          <h3 style={{ marginBottom: 6 }}>Ruta A — Proceso jerarquico analitico (SIG-MCDA / AHP)</h3>
+          <div style={{ marginTop: 8, padding: 12, borderRadius: 12, background: "#f8fafc", border: "1px solid rgba(0,0,0,.08)" }}>
+            <div style={{ fontWeight: 700, marginBottom: 6, fontSize: 16 }}>Glosario</div>
+            <div style={{ display: "grid", gap: 6 }}>
+              <div><strong>Grupo (G1):</strong> Infiltracion superficial.</div>
+              <div><strong>Grupo (G2):</strong> Intervencion del cauce.</div>
+              <div><strong>Grupo (G3):</strong> Recarga mediante pozos.</div>
+              <div><strong>V:</strong> variables/preguntas del esquema conceptual (V1–V35).</div>
+              <div><strong>C:</strong> criterios de evaluacion (C1–C5).</div>
+            </div>
+          </div>
+          <p style={{ marginTop: 6, opacity: 0.92 }}>
+            Esta ruta es el camino metodologico donde la informacion del caso se transforma en criterios comparables para
+            decidir el grupo MAR mas idoneo. Se le llama jerarquico porque organiza la decision en niveles: primero
+            criterios (C1–C5), luego variables (V1–V35) y finalmente la integracion por grupo (G1, G2, G3).
+          </p>
+          <p style={{ marginTop: 10, opacity: 0.92 }}>
+            Para unificar la lectura y permitir comparaciones consistentes, cada variable se expresa en una escala ordinal
+            de cinco niveles (0–4). Esta escala representa el grado de favorabilidad de la condicion evaluada y se acompaña
+            de una referencia cromatica, desde un limitante critico hasta una condicion optima (Tabla 2).
+          </p>
+          {/* ... */}
+        </div>
+      )}
+
+      {route === "B" && (
+        <div style={{ marginTop: 14 }}>
+          <h3 style={{ marginBottom: 6 }}>Ruta B — Modelo automatizado (Arboles / Bosque aleatorio)</h3>
+          <p style={{ opacity: 0.92 }}>
+            En esta ruta, el mismo esquema conceptual se traduce a un vector de variables (V1–V35) que alimenta modelos
+            supervisados entrenados con la base de casos.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
