@@ -1,0 +1,2043 @@
+:root {
+  --bg: #e5f0fb;
+  --sidebar-bg: #0f172a;
+  --accent: #2563eb;
+  --accent-soft: #dbeafe;
+  --text-main: #111827;
+  --text-muted: #4b5563;
+
+  /* ✅ Fuente única para TODO */
+  --font-main: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ✅ Forzar tipografía única en toda la app (inputs/buttons incluidos) */
+html,
+body {
+  font-family: var(--font-main);
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+/* ---------- PANTALLA DE INICIO (PORTADA SIGMMA) ---------- */
+.landing {
+  min-height: 100vh;
+  background: #f4f7fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.landing-card {
+  position: relative;
+  max-width: 1300px;
+  width: calc(100% - 80px);
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+  padding: 60px 80px 130px;
+  min-height: 500px;
+}
+
+.landing-header {
+  max-width: 900px;
+  margin: 0 auto 28px auto;
+}
+
+.landing-title {
+  font-family: var(--font-main);
+  font-size: 6rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #0b3c5d;
+  text-align: center;
+  margin: 0 0 12px 0;
+}
+
+.landing-subtitle-descr {
+  font-family: var(--font-main);
+  font-size: 1.5rem;
+  color: #111827;
+  text-align: center;
+  margin: 0;
+}
+
+.landing-main {
+  display: block;
+  margin-top: 40px;
+}
+
+.landing-lema {
+  font-family: var(--font-main);
+  font-size: 2.5rem;
+  line-height: 1.4;
+  color: #111827;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+.landing-button {
+  background: #0b3c5d;
+  color: #ffffff;
+  border: none;
+  border-radius: 24px;
+  padding: 26px 34px;
+  min-width: 220px;
+  font-family: var(--font-main);
+  font-size: 1.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.35);
+  text-align: center;
+  margin-top: 32px;
+  margin-left: auto;
+  display: block;
+}
+
+.landing-button:hover {
+  background: #0f4a73;
+}
+
+.landing-graphic {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 38%;
+  max-height: 200px;
+}
+
+.landing-logo {
+  position: absolute;
+  right: 28px;
+  bottom: 20px;
+  height: 70px;
+}
+
+@media (max-width: 900px) {
+  .landing-card {
+    padding: 32px 20px 80px;
+  }
+  .landing-title {
+    font-size: 2.4rem;
+    letter-spacing: 0.08em;
+  }
+  .landing-subtitle-descr {
+    font-size: 0.9rem;
+  }
+  .landing-main {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .landing-lema {
+    max-width: 100%;
+    font-size: 1.5rem;
+  }
+  .landing-button {
+    align-self: center;
+    padding: 18px 26px;
+    font-size: 1.1rem;
+  }
+  .landing-graphic {
+    height: 28%;
+    max-height: 160px;
+  }
+  .landing-logo {
+    height: 32px;
+    right: 16px;
+    bottom: 14px;
+  }
+}
+
+/* ---------- APP PRINCIPAL (MENÚ + CONTENIDO) ---------- */
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  background: var(--bg);
+}
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background: var(--sidebar-bg);
+  color: #e5e7eb;
+  padding: 1.5rem 1.25rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.logo {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.sidebar-subtitle {
+  font-size: 1.1rem;
+  color: #9ca3af;
+  margin-bottom: 2rem;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0.5rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.main-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-btn {
+  width: 100%;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.55rem 0.8rem;
+  color: #cbd5f5;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-family: var(--font-main);
+  font-weight: 500;
+}
+
+.nav-btn:hover {
+  background: rgba(15, 23, 42, 0.7);
+}
+
+.nav-btn.active {
+  background: #1d4ed8;
+  color: white;
+}
+
+.nav-label {
+  flex: 1;
+  text-align: left;
+}
+
+.nav-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+}
+
+.back-home-btn {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 999px;
+  border: none;
+  background: #f9fafb;
+  color: #111827;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+}
+
+.back-home-btn:hover {
+  background: #e5e7eb;
+}
+
+.content {
+  padding: 1.5rem 3rem;
+  color: var(--text-main);
+  min-width: 0;
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+h2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.text-muted {
+  color: var(--text-muted);
+  font-size: 1.0rem;
+}
+
+.tabs {
+  margin: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tab {
+  border: 1px solid #cbd5f5;
+  background: #ffffff;
+  color: #111827;
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+/* ✅ Tabs de metodología: “icono” (píldora) del mismo tamaño que su texto */
+.tab-phase-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: auto;
+  height: auto;
+  padding: 0.22em 0.75em;
+
+  border-radius: 999px;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1em;     /* igual al texto del tab */
+  line-height: 1;     /* evita “inflar” la altura */
+  flex-shrink: 0;
+}
+
+.tab.active .tab-phase-icon {
+  background: #ffffff;
+  color: #2563eb;
+}
+
+/* Figura de la metodología general */
+.metodo-figure {
+  margin: 1.1rem 0 1.8rem;
+  text-align: center;
+}
+
+.metodo-image {
+  max-width: 100%;
+  border-radius: 1rem;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.2);
+}
+
+.metodo-caption {
+  font-size: 1rem;
+  color: #4b5563;
+  margin-top: 0.45rem;
+}
+
+.panel-card {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  border: 1px solid var(--accent-soft);
+  padding: 1rem 1.25rem;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+}
+
+/* ================================ INTRODUCCIÓN MAR ================================ */
+.intro-section {
+  max-width: none;
+  margin: 0 auto;
+}
+
+.intro-title {
+  font-size: 2.5rem;
+  margin-bottom: 0rem;
+  color: #111827;
+}
+
+.intro-mar-block {
+  margin-bottom: 2.2rem;
+}
+
+.intro-mar-main {
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #0f4a73;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.intro-text {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--text-main);
+  max-width: none;
+}
+
+.intro-block {
+  margin-bottom: 2.2rem;
+}
+
+.intro-heading {
+  font-size: 2rem;
+  margin-bottom: 0.6rem;
+  color: var(--text-main);
+}
+
+.intro-list {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-main);
+  padding-left: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.intro-list li + li {
+  margin-top: 0.75rem;
+}
+
+.intro-image-placeholder {
+  margin-top: 1.2rem;
+  border-radius: 0.9rem;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  padding: 1rem 1.2rem 1.1rem;
+  color: #6b7280;
+  text-align: center;
+}
+
+.intro-image {
+  max-width: 100%;
+  border-radius: 2rem;
+  display: block;
+  margin: 0 auto 0.8rem;
+  cursor: zoom-in;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.intro-image-small {
+  max-width: 85%;
+}
+
+.intro-image:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.18);
+}
+
+.intro-image:active {
+  transform: translateY(0) scale(0.99);
+}
+
+.intro-image-caption {
+  font-size: 0.8rem;
+  color: #4b5563;
+}
+
+.intro-tech-caption {
+  font-size: 0.95rem;
+  color: #4b5563;
+  margin-top: 0.4rem;
+}
+
+/* Layout para fuentes de agua: texto + imagen */
+.intro-water-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: flex-start;
+  margin-top: 0.5rem;
+}
+
+.intro-water-text {
+  min-width: 0;
+}
+
+.intro-water-image-box {
+  padding: 0.75rem 0.9rem 0.9rem;
+}
+
+.intro-water-text .intro-list {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-main);
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* ================================ EXPLORADOR DE TÉCNICAS MAR ================================ */
+.intro-tech-explorer {
+  margin-top: 1rem;
+}
+
+.tech-groups-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.2rem;
+  margin-bottom: 1.6rem;
+}
+
+.tech-group-card {
+  background: #f9fafb;
+  border-radius: 0.9rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+.tech-group-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+}
+
+.tech-group-card.active {
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+}
+
+.tech-group-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.tech-group-icon {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+}
+
+.tech-group-tag {
+  display: inline-block;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1d4ed8;
+  background: #dbeafe;
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  margin-bottom: 0.4rem;
+}
+
+.tech-group-title {
+  font-size: 1.3rem;
+  margin: 0 0 0.25rem 0;
+  color: #111827;
+}
+
+.tech-group-text {
+  font-size: 1rem;
+  color: #4b5563;
+  margin: 0;
+}
+
+/* Colores por grupo (pasteles) */
+.tech-group-card.group-1 {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+.tech-group-card.group-1.active {
+  background: #dbeafe;
+  border-color: #60a5fa;
+}
+.tech-group-card.group-2 {
+  background: #ecfdf3;
+  border-color: #bbf7d0;
+}
+.tech-group-card.group-2.active {
+  background: #dcfce7;
+  border-color: #4ade80;
+}
+.tech-group-card.group-3 {
+  background: #f4f4f5;
+  border-color: #e4e4e7;
+}
+.tech-group-card.group-3.active {
+  background: #e5e7eb;
+  border-color: #9ca3af;
+}
+
+/* Layout lista + detalle */
+.tech-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.9fr);
+  gap: 1rem;
+}
+
+.tech-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.tech-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  padding: 0.55rem 0.65rem;
+  border-radius: 0.7rem;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  cursor: pointer;
+  transition: background 0.16s ease, border-color 0.16s ease, transform 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+.tech-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.12);
+}
+
+.tech-item.active {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.tech-item.group-1.active {
+  border-color: #60a5fa;
+  background: #eff6ff;
+}
+.tech-item.group-2.active {
+  border-color: #4ade80;
+  background: #ecfdf3;
+}
+.tech-item.group-3.active {
+  border-color: #9ca3af;
+  background: #f4f4f5;
+}
+
+.tech-icon-placeholder {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: #1d4ed8;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-right: 0.6rem;
+  overflow: hidden;
+}
+
+.tech-icon-placeholder.group-1 {
+  background: #60a5fa;
+}
+.tech-icon-placeholder.group-2 {
+  background: #22c55e;
+}
+.tech-icon-placeholder.group-3 {
+  background: #6b7280;
+}
+
+.tech-icon-mini {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 999px;
+}
+
+.tech-text-wrapper {
+  flex: 1;
+  min-width: 0;
+}
+
+.tech-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.tech-group-label {
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+.tech-detail {
+  background: #ffffff;
+  border-radius: 0.9rem;
+  border: 1px solid #e5e7eb;
+  padding: 1rem 1.1rem;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  min-width: 0;
+}
+
+.tech-detail.group-1 {
+  border-color: #bfdbfe;
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.12);
+}
+.tech-detail.group-2 {
+  border-color: #bbf7d0;
+  box-shadow: 0 12px 24px rgba(34, 197, 94, 0.12);
+}
+.tech-detail.group-3 {
+  border-color: #e4e4e7;
+  box-shadow: 0 12px 24px rgba(107, 114, 128, 0.12);
+}
+
+.tech-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.tech-detail-title {
+  font-size: 1.3rem;
+  margin: 0;
+  color: #111827;
+  white-space: pre-line;
+}
+
+.tech-detail-group-label {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-top: 0.2rem;
+}
+
+.tech-detail-icon-button {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.tech-detail-icon-button:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 3px;
+}
+
+.tech-detail-icon {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.15);
+}
+
+.tech-detail-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #111827;
+  margin-bottom: 0.6rem;
+}
+
+.tech-detail-refs {
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+
+/* Criterios MAR */
+.criteria-table-wrap{
+  overflow:auto;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  background:#fff;
+  margin-top: 14px;      /* separa del texto de arriba */
+  margin-bottom: 18px;   /* separa de lo que siga abajo */
+}
+
+.criteria-table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:900px;
+}
+
+.criteria-table th,
+.criteria-table td{
+  padding:10px 12px;
+  border-bottom:1px solid #e5e7eb;
+  vertical-align:top;
+}
+
+.criteria-table th{
+  text-align:left;
+  background:#f9fafb;
+  font-weight:600;
+}
+
+.criteria-table tr:last-child td{
+  border-bottom:none;
+}
+
+.criteria-caption{
+  caption-side: top;      /* usa bottom si lo quieres abajo */
+  text-align: left;
+  margin-bottom: 12px;    /* espacio entre título y tabla */
+  font-weight: 450;
+  font-size: 16px;
+  color: #111827;
+}
+
+/* ================================ ESQUEMA CONCEPTUAL ================================ */
+.intro-concept-scheme .intro-text {
+  margin-bottom: 0.5rem;
+}
+
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.4rem;
+  margin-top: 0.8rem;
+}
+
+.concept-step {
+  background: #ffffff;
+  border-radius: 0.9rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
+  padding: 1rem 1.1rem 1.05rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.concept-step:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 34px rgba(15, 23, 42, 0.16);
+  border-color: var(--accent-soft);
+}
+
+.concept-step-title {
+  font-size: 1.3rem;
+  margin: 0;
+  color: #0f172a;
+}
+
+.concept-step-text {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: #4b5563;
+}
+
+.concept-image-button {
+  border: none;
+  padding: 0;
+  margin: 0.1rem 0 0.3rem;
+  background: transparent;
+  cursor: pointer;
+}
+
+.concept-image {
+  max-height: 210px;
+  border-radius: 1.2rem;
+}
+
+.concept-caption {
+  font-size: 0.8rem;
+  color: #6b7280;
+  text-align: center;
+}
+
+/* CTA a metodología */
+.intro-metodo-cta {
+  margin-top: 1rem;
+}
+
+.intro-metodo-cta-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 1rem;
+  background: linear-gradient(120deg, rgba(219, 234, 254, 0.9), rgba(219, 244, 253, 0.95));
+  border: 1px solid #bfdbfe;
+}
+
+.intro-metodo-text {
+  max-width: 720px;
+}
+
+.intro-metodo-title {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.15rem;
+  color: #0f172a;
+}
+
+.intro-metodo-copy {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #111827;
+}
+
+.intro-metodo-button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.75rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.35);
+  white-space: nowrap;
+}
+
+.intro-metodo-button:hover {
+  background: #1d4ed8;
+}
+
+/* ================================ METODOLOGÍA ================================ */
+.metodo-section {
+  max-width: 1150px;
+  margin: 0 auto;
+}
+
+.metodo-title {
+  font-size: 2.4rem;
+  margin-bottom: 0.25rem;
+  color: #111827;
+}
+
+.metodo-text-main {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #111827;
+  margin-bottom: 0.9rem;
+}
+
+.metodo-hero {
+  margin: 0.6rem 0 1.3rem;
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  padding: 0.9rem 1.1rem 1.1rem;
+}
+
+.metodo-image {
+  max-width: 100%;
+  border-radius: 0.9rem;
+  display: block;
+  margin: 0 auto 0.5rem;
+  cursor: zoom-in;
+}
+
+.metodo-caption {
+  font-size: 0.85rem;
+  color: #4b5563;
+  margin: 0;
+  text-align: center;
+}
+
+/* ---------- OVERLAY ZOOM IMAGEN ---------- */
+.image-zoom-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-zoom-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.image-zoom-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  width: 98%;
+  max-height: 96vh;
+  background: #020617;
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.6);
+  padding: 0.75rem 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.image-zoom-img {
+  width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 0.5rem;
+}
+
+.image-zoom-close {
+  border: none;
+  background: rgba(15, 23, 42, 0.85);
+  color: #e5e7eb;
+  border-radius: 999px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-bottom: 0.4rem;
+}
+
+/* ================================ FASE 1 – PANEL DE INSUMOS MAR ================================ */
+.fase-insumos-wrapper {
+  margin-top: 1.2rem;
+}
+
+.fase-insumos-intro {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: #111827;
+  margin-bottom: 0.8rem;
+}
+
+.fase-insumos-list {
+  margin: 0 0 0.8rem 1.1rem;
+  padding: 0;
+  color: #111827;
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.fase-insumos-list li {
+  margin: 0.2rem 0;
+}
+
+.uhg-group {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.uhg-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.uhg-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 36px;
+}
+
+@media (max-width: 780px) {
+  .uhg-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+.uhg-full {
+  grid-column: 1 / -1;
+  width: 95%;
+}
+
+.uhg-column {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.fase-insumos-layout {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+.fase-insumos-left {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  border: 1px solid #dbeafe;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
+  padding: 0.75rem 0.75rem 0.9rem;
+  min-width: 0;
+}
+
+.insumos-panel-header {
+  background: #0b3c5d;
+  color: #f9fafb;
+  border-radius: 0.5rem;
+  padding: 0.55rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.7rem;
+}
+
+.insumos-panel-icon {
+  font-size: 1.1rem;
+}
+
+.insumos-panel-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.insumos-case-select-label {
+  font-size: 0.86rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.insumos-select {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid #9ca3af;
+  padding: 0.45rem 0.55rem;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.insumos-tab-toggle {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0.35rem 0 0.6rem;
+}
+
+.insumos-tab-btn {
+  flex: 1;
+  padding: 0.5rem 0.55rem;
+  border-radius: 0.5rem;
+  border: 1px solid #cbd5f5;
+  background: #eef2ff;
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.insumos-tab-btn.active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+.insumos-case-card {
+  background: #f9fafb;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  padding: 0.6rem 0.65rem 0.65rem;
+  margin-bottom: 0.6rem;
+}
+
+.insumos-case-name {
+  font-size: 0.9rem;
+  font-weight: 800;
+  margin-bottom: 0.35rem;
+}
+
+.insumos-case-field-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.25rem;
+}
+
+.insumos-case-label {
+  font-size: 0.82rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.insumos-case-input {
+  flex: 1;
+  border-radius: 0.45rem;
+  border: 1px solid #d1d5db;
+  padding: 0.35rem 0.45rem;
+  font-size: 0.86rem;
+  min-width: 0;
+}
+
+.insumos-case-input[readonly] {
+  background: #f3f4f6;
+  cursor: not-allowed;
+}
+
+.insumos-download-row {
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.4rem;
+  margin-top: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.insumos-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid #0b3c5d;
+  background: #ffffff;
+  color: #0b3c5d;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.insumos-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid #991b1b;
+  background: #ffffff;
+  color: #991b1b;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.insumos-modules-list {
+  margin-top: 0.4rem;
+}
+
+.insumos-module-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0.55rem;
+  border: 1px solid #e5e7eb;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.92rem;
+  cursor: pointer;
+  margin-bottom: 0.35rem;
+}
+
+/* ✅ QUITAR NEGRITA a “Modelo Geológico, Hidráulico…” */
+.insumos-module-btn span {
+  font-weight: 400;
+}
+
+/* Colores tipo imagen */
+.insumos-module-btn.mod-geologico {
+  background: #f3fbff;
+  border-color: #dbeafe;
+}
+.insumos-module-btn.mod-hidraulico {
+  background: #f3fbff;
+  border-color: #dbeafe;
+}
+.insumos-module-btn.mod-hidrologico {
+  background: #f4feff;
+  border-color: #d7f2ff;
+}
+.insumos-module-btn.mod-hidrogeoquimico {
+  background: #faf8ff;
+  border-color: #ece9ff;
+}
+.insumos-module-btn.mod-caracterizacion {
+  background: #f6f9ff;
+  border-color: #e3efff;
+}
+.insumos-module-btn.mod-fuente {
+  background: #f4fdf7;
+  border-color: #d9fbe8;
+}
+.insumos-module-btn.mod-volumen {
+  background: #fffaf3;
+  border-color: #ffe7c7;
+}
+.insumos-module-btn.mod-infraestructura {
+  background: #fff5f5;
+  border-color: #ffe0e0;
+}
+.insumos-module-btn.mod-comunidad {
+  background: #fffbe8;
+  border-color: #fff2b3;
+}
+.insumos-module-btn.mod-relieve {
+  background: #f7f8fa;
+  border-color: #e7e9ef;
+}
+
+.insumos-module-btn.active {
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+  border-color: #2563eb;
+}
+
+/* Tab MAPAS en la columna izquierda */
+.insumos-maps-panel {
+  margin-top: 0.4rem;
+  padding: 0.25rem 0.1rem 0;
+}
+
+.insumos-map-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.insumos-map-group {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.65rem;
+  padding: 0.5rem 0.55rem;
+}
+
+.insumos-map-group-title {
+  font-weight: 900;
+  font-size: 0.92rem;
+  color: #0f172a;
+  margin-bottom: 0.35rem;
+}
+
+.insumos-map-layers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.insumos-map-layer-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  color: #111827;
+}
+
+.insumos-map-layer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.insumos-map-layer-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  color: #111827;
+}
+
+.insumos-map-layer-action {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #111827;
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.insumos-map-layer-action:hover {
+  background: #f9fafb;
+}
+
+.insumos-map-upload {
+  margin-top: 0.55rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px dashed #cbd5e1;
+  border-radius: 0.65rem;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.insumos-map-upload-title {
+  font-size: 0.9rem;
+  font-weight: 900;
+  color: #0f172a;
+  margin-bottom: 0.35rem;
+}
+
+.insumos-map-upload-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.insumos-map-upload-input {
+  font-size: 0.85rem;
+}
+
+.insumos-map-upload-meta {
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+
+.insumos-map-upload-clear {
+  border: 1px solid #991b1b;
+  background: #ffffff;
+  color: #991b1b;
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.82rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* Columna derecha */
+.fase-insumos-right {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.12);
+  padding: 0.8rem 0.9rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+/* ✅ Herencia de color en panel derecho (por módulo) */
+.fase-insumos-right.mod-geologico {
+  background: #f3fbff;
+  border-color: #dbeafe;
+}
+.fase-insumos-right.mod-hidraulico {
+  background: #f3fbff;
+  border-color: #dbeafe;
+}
+.fase-insumos-right.mod-hidrologico {
+  background: #f4feff;
+  border-color: #d7f2ff;
+}
+.fase-insumos-right.mod-hidrogeoquimico {
+  background: #faf8ff;
+  border-color: #ece9ff;
+}
+.fase-insumos-right.mod-caracterizacion {
+  background: #f6f9ff;
+  border-color: #e3efff;
+}
+.fase-insumos-right.mod-fuente {
+  background: #f4fdf7;
+  border-color: #d9fbe8;
+}
+.fase-insumos-right.mod-volumen {
+  background: #fffaf3;
+  border-color: #ffe7c7;
+}
+.fase-insumos-right.mod-infraestructura {
+  background: #fff5f5;
+  border-color: #ffe0e0;
+}
+.fase-insumos-right.mod-comunidad {
+  background: #fffbe8;
+  border-color: #fff2b3;
+}
+.fase-insumos-right.mod-relieve {
+  background: #f7f8fa;
+  border-color: #e7e9ef;
+}
+
+/* --- AQUI estaba el corte del texto --- */
+.insumos-module-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.3rem;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.insumos-module-save-btn{
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.uhg-add-btn{
+  background: #0b3c5d;
+  border-color: #0b3c5d;
+  color: #f9fafb;
+  box-shadow: 0 8px 18px rgba(11, 60, 93, 0.18);
+}
+
+.uhg-add-btn:disabled{
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.insumos-module-title {
+  font-size: 1.05rem;
+  margin: 0;
+  color: #111827;
+}
+
+.insumos-module-code {
+  font-size: 0.85rem;
+  color: #6b7280;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.insumos-scenario-hint {
+  margin: 0.4rem 0 0.6rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 10px;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  font-size: 0.85rem;
+  color: #1e3a8a;
+}
+
+.insumos-module-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 2rem;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: start;
+}
+
+.insumos-field-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.insumos-entry {
+  display: contents;
+}
+
+.insumos-entry-header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+  font-weight: 700;
+}
+
+@media (max-width: 980px) {
+  .insumos-module-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+.insumos-field-label {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #111827;
+  font-family: inherit;   /* ✅ misma tipografía del proyecto */
+}
+
+
+.req{
+  color:#b91c1c;
+  margin-left:6px;
+  font-weight:900;
+}
+
+.insumos-field-help {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #4b5563;
+}
+
+.insumos-field-input,
+.insumos-field-textarea,
+.insumos-field-select {
+  width: 100%;
+  display: block;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.9rem;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.insumos-field-textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+
+.insumos-field-option-help{
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.55);
+  border: 1px solid rgba(0,0,0,.10);
+  font-size: 13px;
+  line-height: 1.35;
+  opacity: .9;
+}
+
+/* ====== REQUIRED / ERROR (Fase 1) ====== */
+.insumos-field-label.error {
+  color: #dc2626;
+}
+
+.insumos-field-input.error,
+.insumos-field-select.error,
+.insumos-field-textarea.error {
+  border: 1px solid #dc2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12) !important;
+}
+
+.insumos-field-error-text {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #dc2626;
+  font-weight: 700;
+}
+
+/* Mapas relacionados + visor */
+.insumos-maps-related {
+  margin-top: 0.5rem;
+}
+
+.insumos-maps-title {
+  font-size: 0.9rem;
+  font-weight: 900;
+  margin-right: 0.5rem;
+}
+
+.insumos-map-add-row {
+  margin-top: 0.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.insumos-map-add-input {
+  flex: 1 1 220px;
+  min-width: 200px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+.insumos-map-add-btn {
+  border: 1px solid #1d4ed8;
+  background: #1d4ed8;
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.4rem 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.insumos-map-add-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.insumos-maps-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+}
+
+.insumos-map-btn {
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.insumos-map-btn.active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+.insumos-map-viewer {
+  margin-top: 0.4rem;
+}
+
+.insumos-map-viewer-inner {
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  padding: 0.4rem 0.5rem 0.5rem;
+}
+
+.insumos-map-viewer-caption {
+  font-size: 0.85rem;
+  color: #4b5563;
+  margin-bottom: 0.25rem;
+}
+
+.insumos-map-image{
+  width: 100%;
+  height: auto;
+  max-height: 65vh;
+  object-fit: contain;
+  display: block;
+}
+
+.insumos-map-empty{
+  margin-top: 10px;
+  padding: 14px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  background: #fff;
+  color: #64748b;
+}
+
+.insumos-map-upload-box{
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px dashed #cbd5e1;
+  background: #fff;
+}
+
+.insumos-map-upload-title{
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.insumos-map-upload-row{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.insumos-map-file{
+  max-width: 260px;
+}
+
+.insumos-map-upload-status{
+  color: #334155;
+  font-size: 14px;
+}
+
+.insumos-map-remove-btn{
+  border: 1px solid #ef4444;
+  background: #fff;
+  color: #b91c1c;
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.insumos-required-asterisk { 
+  margin-left: 6px; font-weight: 900; 
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .fase-insumos-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1000px) {
+  .tech-groups-row {
+    grid-template-columns: 1fr;
+  }
+  .tech-layout {
+    grid-template-columns: 1fr;
+  }
+  .criteria-grid {
+    grid-template-columns: 1fr;
+  }
+  .intro-water-layout {
+    grid-template-columns: 1fr;
+  }
+  .concept-grid {
+    grid-template-columns: 1fr;
+  }
+  .intro-metodo-cta-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .intro-metodo-button {
+    align-self: stretch;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    flex-direction: column;
+    gap: 0.3rem;
+    height: auto;
+  }
+  .content {
+    padding: 1rem;
+  }
+  .tech-detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .tech-detail-icon {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* ---------- PRINT (cuando usas window.print en la app) ---------- */
+@media print {
+  .sidebar,
+  .landing,
+  .nav-btn,
+  .back-home-btn,
+  .insumos-tab-toggle,
+  .insumos-modules-list,
+  .insumos-maps-panel,
+  .intro-metodo-cta,
+  .image-zoom-overlay {
+    display: none !important;
+  }
+
+  .app-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .content {
+    padding: 0 !important;
+  }
+
+  .fase-insumos-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .fase-insumos-left,
+  .fase-insumos-right {
+    box-shadow: none !important;
+  }
+
+  .insumos-map-validation {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed #d1d5db;
+  display: grid;
+  gap: 10px;
+}
+
+.insumos-map-check {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.insumos-map-elements {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+
+.insumos-map-elements label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.insumos-map-scale-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.insumos-map-scale-input {
+  flex: 1;
+  max-width: 220px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+}
+
+.insumos-map-missing {
+  font-size: 13px;
+  color: #b91c1c;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+.route-grid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.route-card{
+  background:#ffffff;
+  border:1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 14px 14px 12px;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+}
+
+.route-card-title{
+  margin: 0 0 4px 0;
+  font-size: 1.05rem;
+  color:#111827;
+}
+
+.route-card-sub{
+  color:#4b5563;
+  font-size: 0.95rem;
+}
+
+.route-card-block{
+  margin-top: 10px;
+}
+
+.route-card-label{
+  font-weight: 800;
+  font-size: 0.9rem;
+  color:#0f172a;
+  margin-bottom: 6px;
+}
+
+.route-card-list{
+  margin: 0;
+  padding-left: 18px;
+  color:#111827;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 1000px){
+  .route-grid{ grid-template-columns: 1fr; }
+}
+
+/* Rombo mesh */
+.p2-mesh{
+  display:grid;
+  grid-template-columns: repeat(3, 108px);
+  gap: 14px;
+  align-items:center;
+}
+
+.p2-diamond{
+  width:108px;
+  height:108px;
+  border-radius:18px;
+  border:1px solid rgba(0,0,0,.12);
+  background:#fff;
+  transform: rotate(45deg);
+  cursor:pointer;
+  box-shadow: 0 8px 18px rgba(0,0,0,.06);
+}
+.p2-diamond-inner{
+  width:100%;
+  height:100%;
+  transform: rotate(-45deg);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  font-weight:900;
+}
+.p2-diamond-id{ font-size:14px; }
+.p2-diamond-score{ font-size:12px; opacity:.85; }
+
+.p2-diamond.ok{ outline:2px solid rgba(34,197,94,.45); }
+.p2-diamond.mid{ outline:2px solid rgba(234,179,8,.45); }
+.p2-diamond.miss{ outline:2px solid rgba(239,68,68,.45); }
+
+
+/* ================================ FASE 2 — INTRO + RUTAS ================================ */
+.fase2-intro-wrap {
+  margin-top: 0.8rem;
+}
+
+.fase2-intro-p {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #111827;
+  margin: 0 0 0.75rem 0;
+}
+
+.fase2-route-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0.8rem 0 0.9rem;
+}
+
+.fase2-route-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+}
+
+.fase2-route-title {
+  margin: 0 0 0.4rem 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.fase2-route-p {
+  margin: 0 0 0.55rem 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #111827;
+}
+
+.fase2-route-result {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+
+.fase2-nextstep {
+  margin-top: 0.9rem;
+  padding: 0.8rem 0.95rem;
+  border-radius: 14px;
+  border: 1px solid #bfdbfe;
+  background: rgba(219, 234, 254, 0.55);
+}
+
+.fase2-nextstep-title {
+  font-weight: 900;
+  margin-bottom: 0.25rem;
+  color: #0f172a;
+}
+
+.fase2-nextstep-item {
+  color: #111827;
+  font-weight: 600;
+}
+
+@media (max-width: 1000px) {
+  .fase2-route-cards {
+    grid-template-columns: 1fr;
+  }
+}
+}
+
+
